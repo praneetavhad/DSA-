@@ -42,6 +42,8 @@ public class Q04_NumberOfIslands {
 
     // Write your solution here - same code you would submit on LeetCode.
     static class Solution {
+        private static final int[][] DIRECTIONS = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
         public int numIslands(char[][] grid) {
             int cnt = 0;
             int m = grid.length;
@@ -65,10 +67,11 @@ public class Q04_NumberOfIslands {
                 }
 
                 grid[i][j] = '0';
-                dfs(grid,i+1,j);
-                dfs(grid,i-1,j);
-                dfs(grid,i,j+1);
-                dfs(grid,i,j-1);
+                for (int[] direction : DIRECTIONS) {
+                    int nextRow = i + direction[0];
+                    int nextCol = j + direction[1];
+                    dfs(grid, nextRow, nextCol);
+                }
             }
         }
     }

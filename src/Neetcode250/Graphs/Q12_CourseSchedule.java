@@ -39,9 +39,51 @@ public class Q12_CourseSchedule {
 
     // Write your solution here - same code you would submit on LeetCode.
     static class Solution {
-        public boolean canFinish(int numCourses, int[][] prerequisites) {
-            // TODO: write your solution here
-            throw new UnsupportedOperationException("TODO");
+        public boolean canFinish(int nodeCount, int[][] edges) {
+
+            List<List<Integer>> graph = new ArrayList<>();
+
+            for (int i = 0; i < nodeCount; i++) {
+                graph.add(new ArrayList<>());
+            }
+
+            for (int i = 0; i < edges.length; i++) {
+                int start = edges[i][0];
+                int end = edges[i][1];
+                addEdge(graph,start,end);
+            }
+
+
+            boolean[] visited = new boolean[graph.size()];
+            boolean[] recursivePath = new boolean[graph.size()];
+            for (int src = 0; src < graph.size(); src++) {
+                if (!visited[src] && directedCycleAlgo(src, recursivePath, visited, graph)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private static void addEdge(List<List<Integer>> graph, int start, int end) {
+            graph.get(start).add(end);
+        }
+
+        private static boolean directedCycleAlgo(int u, boolean[] recursivePath, boolean[] visited, List<List<Integer>> graph) {
+            visited[u] = true;
+            recursivePath[u] = true;
+            for(int v : graph.get(u)){
+                if(visited[v] == false){
+                    visited[v] = true;
+                    if(directedCycleAlgo(v,recursivePath,visited,graph)){
+                        return true;
+                    }
+                } else if (recursivePath[v] == true) {
+                    return true;
+                }
+            }
+
+            recursivePath[u] = false;
+            return false;
         }
     }
 

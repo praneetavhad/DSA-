@@ -45,9 +45,60 @@ public class Q13_CourseScheduleII {
 
     // Write your solution here - same code you would submit on LeetCode.
     static class Solution {
-        public int[] findOrder(int numCourses, int[][] prerequisites) {
-            // TODO: write your solution here
-            throw new UnsupportedOperationException("TODO");
+        public int[] findOrder(int nodeCount, int[][] edges) {
+            List<List<Integer>> graph = new ArrayList<>();
+
+            for (int i = 0; i < nodeCount; i++) {
+                graph.add(new ArrayList<>());
+            }
+
+            for (int i = 0; i < edges.length; i++) {
+                int start = edges[i][0];
+                int end = edges[i][1];
+                addEdge(graph,start,end);
+            }
+
+            int[] ans = new int[nodeCount];
+            int[] indegree = new int[graph.size()];
+
+            // Calculate Indegree
+            for(int u = 0; u< graph.size();u++){
+                for(int v: graph.get(u)){
+                    indegree[v]++;
+                }
+            }
+
+            Queue<Integer> q = new LinkedList<>();
+            // Add 0 indegree to queue
+            for(int i=0;i<indegree.length;i++){
+                if(indegree[i] == 0){
+                    q.add(i);
+                }
+            }
+
+            // BFS tarversal
+            int i=0;
+            while(!q.isEmpty()){
+                int curr = q.poll();
+                ans[i] = curr;
+                i++;
+
+                for(int v: graph.get(curr)){
+                    indegree[v]--;
+                    if(indegree[v] == 0){
+                        q.add(v);
+                    }
+                }
+            }
+
+            if(i == nodeCount ){
+                return ans;
+            }
+            return new int[] {};
+        }
+
+        private static void addEdge(List<List<Integer>> graph, int start, int end) {
+            graph.get(end).add(start);
         }
     }
 

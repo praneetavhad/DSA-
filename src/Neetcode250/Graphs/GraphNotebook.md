@@ -465,7 +465,7 @@ Record the problem number, name, and chosen approach. Add solution steps after t
 
 1. Start with a total perimeter of zero. Loop over each row `i` and column `j`. Whenever `grid[i][j]` is `1`, add the result of DFS from `(i, j)` to the total.
 2. In DFS, return `1` if `(i, j)` is outside the grid or `grid[i][j]` is `0`. That move crossed an exposed side.
-3. If `grid[i][j]` is `-1`, return `0`. Otherwise, mark `grid[i][j]` as `-1` and return the sum of DFS from `(i + 1, j)`, `(i - 1, j)`, `(i, j + 1)`, and `(i, j - 1)`.
+3. If `grid[i][j]` is `-1`, return `0`. Otherwise, mark `grid[i][j]` as `-1`, loop over `DIRECTIONS`, and sum the DFS results for each `(nextRow, nextCol)`.
 4. Return the total after the scan.
 
 **Complexity:** DFS takes O(rows × cols) worst-case time and can use O(rows × cols) stack space. It marks visited land in the input grid.
@@ -493,7 +493,7 @@ Record the problem number, name, and chosen approach. Add solution steps after t
 
 1. Set `cnt` to zero. Loop through every row `i` and column `j` in `grid`.
 2. When `grid[i][j]` is the character `'1'`, run DFS from `(i, j)`, then increase `cnt` by one.
-3. In DFS, stop if `(i, j)` is out of bounds or `grid[i][j]` is `'0'`. Otherwise, change it to `'0'` before exploring `(i + 1, j)`, `(i - 1, j)`, `(i, j + 1)`, and `(i, j - 1)`.
+3. In DFS, stop if `(i, j)` is out of bounds or `grid[i][j]` is `'0'`. Otherwise, change it to `'0'`, then loop over `DIRECTIONS` and run DFS for each `(nextRow, nextCol)`.
 4. Return `cnt` after scanning the grid.
 
 **Complexity:** O(m × n) worst-case time and O(m × n) worst-case recursion stack space. The DFS marks visited land directly in `grid`.
@@ -506,7 +506,7 @@ Record the problem number, name, and chosen approach. Add solution steps after t
 
 1. Set `max_cnt` to zero. Scan each row `i` and column `j` in `grid`.
 2. When `grid[i][j]` is `1`, set `cnt` to the area returned by DFS from `(i, j)`. Update `max_cnt` with the larger of `cnt` and `max_cnt`.
-3. In DFS, return zero for an out-of-bounds cell or a cell with value `0`. For fresh land, set `grid[i][j]` to `0` to mark it visited. Start its area at one and add the areas returned by DFS for its four neighbors.
+3. In DFS, return zero for an out-of-bounds cell or a cell with value `0`. For fresh land, set `grid[i][j]` to `0` and start `cnt` at one. Loop over `DIRECTIONS` and add the DFS result for each `(nextRow, nextCol)` to `cnt`.
 4. After scanning the grid, return `max_cnt`.
 
 **Complexity:** O(m × n) time and O(m × n) worst-case recursion stack space.

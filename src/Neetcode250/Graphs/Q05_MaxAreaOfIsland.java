@@ -37,6 +37,8 @@ public class Q05_MaxAreaOfIsland {
 
     // Write your solution here - same code you would submit on LeetCode.
     static class Solution {
+        private static final int[][] DIRECTIONS = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
         public int maxAreaOfIsland(int[][] grid) {
             int cnt = 0;
             int max_cnt = 0;
@@ -62,10 +64,11 @@ public class Q05_MaxAreaOfIsland {
 
                 grid[i][j] = 0;
                 int cnt = 1;
-                cnt = cnt + dfs(grid,i+1,j);
-                cnt = cnt + dfs(grid,i-1,j);
-                cnt = cnt +dfs(grid,i,j+1);
-                cnt = cnt +dfs(grid,i,j-1);
+                for (int[] direction : DIRECTIONS) {
+                    int nextRow = i + direction[0];
+                    int nextCol = j + direction[1];
+                    cnt += dfs(grid, nextRow, nextCol);
+                }
                 return cnt;
             }
             return 0;

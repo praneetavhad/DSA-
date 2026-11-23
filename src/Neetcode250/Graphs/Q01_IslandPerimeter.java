@@ -43,6 +43,8 @@ public class Q01_IslandPerimeter {
 
     // Write your solution here - same code you would submit on LeetCode.
     static class Solution {
+        private static final int[][] DIRECTIONS = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
         public int islandPerimeter(int[][] grid) {
             int perimiter = 0;
             int m = grid.length;
@@ -71,12 +73,13 @@ public class Q01_IslandPerimeter {
             grid[i][j] = -1;
 
 
-            return (
-                    dfs(grid,i+1,j) +
-                    dfs(grid,i-1,j) +
-                    dfs(grid,i,j+1) +
-                    dfs(grid,i,j-1)
-            );
+            int perimeter = 0;
+            for (int[] direction : DIRECTIONS) {
+                int nextRow = i + direction[0];
+                int nextCol = j + direction[1];
+                perimeter += dfs(grid, nextRow, nextCol);
+            }
+            return perimeter;
         }
 
     }
